@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Gestor para Ordenes de Trabajo</title>
+    </h:head>
+    <h:body>
+        <p:growl autoUpdate="true" escape="false"/>
+        <center>
+            <div class="top" align="center">
+                <h:form id="login" > 
+                    <div style="width: 50%;">
+                        <p:panel style="width: 100%;">
+                            <p:graphicImage name="audifarma.jpg" library="imagenes" width="100" height="130"/>     
+                            <br/>
+                            <h:outputLabel value="Gestor para Ordenes de Trabajo" styleClass="backgroud_audifarma" style="font-size: 130%; font-weight:bold"/>
+                            <br/>
+                            <br/>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="Usuario: "/>                       
+                                <p:inputText value="#{loginBean.usuarioLogin}" style="width: 95%; opacity: 0.7;">                       
+                                    <f:ajax event="change" listener="#{loginBean.cargarEmpresas()}" render="listaEmpresas" execute="@this"/>
+                                </p:inputText>
+
+                                <h:outputText value="Contraseña: "/>
+                                <p:inputText value="#{loginBean.usuarioClave}" type="password" style="width: 95%; opacity: 0.7;" />                       
+
+                                <h:outputText value="Empresa"/>                      
+                                <p:selectOneMenu autoWidth="false" converter="almacenConverter" id="listaEmpresas" style="width: 95%; opacity: 0.7;"
+                                                 value="#{loginBean.empresaActiva}" > 
+                                    <f:selectItem itemLabel="Seleccione una opción" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{loginBean.listaEmpresa}" var="itemAlmacen" 
+                                                   itemLabel="#{itemAlmacen.nombreAlmacen}" itemValue="#{itemAlmacen}"/> 
+                                    <f:ajax event="change" listener="#{loginBean.cargarAlmacenes()}" render="login:listaAlmacen" execute="@this"/>
+                                </p:selectOneMenu> 
+                                <h:outputText value="Almacen"/>                      
+                                <p:selectOneMenu autoWidth="false" converter="almacenConverter" id="listaAlmacen" style="width: 95%; opacity: 0.7;"
+                                                 value="#{loginBean.almacenActivo}" > 
+                                    <f:selectItem itemLabel="Seleccione una opción" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{loginBean.listaAlmacenes}" var="itemAlmacen" 
+                                                   itemLabel="#{itemAlmacen.nombreAlmacen}" itemValue="#{itemAlmacen}"/> 
+
+                                </p:selectOneMenu> 
+                                <br/>                   
+                                <h:outputText id="mensajeLogin" value="#{loginBean.mensajeUsuario}" style="font-size: 100%; color: darkred;"/>
+
+                                <br /><br />
+                                <p:commandButton value="Ingresar" update="login"  actionListener="#{loginBean.validar}"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </div>
+                </h:form>
+            </div>
+        </center>
+    </h:body>
+</html>
+
